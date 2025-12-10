@@ -1,8 +1,7 @@
+// UBICACIÓN: lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-// IMPORTANTE: Esta línea es necesaria para usar FirebaseFirestore
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 
@@ -23,12 +22,14 @@ import 'screens/dashboard/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  
+  // NOTA: Eliminamos dotenv.load() porque en la Demo usamos firebase_options.dart directo.
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // CONFIGURACIÓN DE PERSISTENCIA
-  // Habilita el uso de la base de datos sin conexión a internet
+  // CONFIGURACIÓN DE PERSISTENCIA (Opcional, útil para demos fluidas)
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Dash Bloquera',
+        title: 'Bloquera Demo', // Cambié el título para que sepas cuál es
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         home: const AuthWrapper(),
